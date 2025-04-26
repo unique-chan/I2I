@@ -1,6 +1,8 @@
 # I2I
 Image-to-image translation
 
+* https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix
+
 ~~~shell
 conda create -n i2i python=3.8 -y
 conda activate i2i
@@ -9,4 +11,3 @@ pip install dominate==2.9.1
 pip install visdom==0.2.4
 pip install wandb==0.19.10
 ~~~
-
