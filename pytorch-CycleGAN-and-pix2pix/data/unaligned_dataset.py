@@ -23,6 +23,13 @@ class UnalignedDataset(BaseDataset):
             opt (Option class) -- stores all the experiment flags; needs to be a subclass of BaseOptions
         """
         BaseDataset.__init__(self, opt)
+        # Yechan Kim added ->
+        if opt.filter_A:
+            print(opt.fitler_A)
+        if opt.filter_B:
+            print(opt.filter_B)
+
+
         self.dir_A = os.path.join(opt.dataroot, opt.phase + 'A')  # create a path '/path/to/data/trainA'
         self.dir_B = os.path.join(opt.dataroot, opt.phase + 'B')  # create a path '/path/to/data/trainB'
 
