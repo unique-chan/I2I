@@ -87,6 +87,17 @@ def get_transform(opt, params=None, grayscale=False, method=transforms.Interpola
         transform_list.append(transforms.Resize(osize, method))
     elif 'scale_width' in opt.preprocess:
         transform_list.append(transforms.Lambda(lambda img: __scale_width(img, opt.load_size, opt.crop_size, method)))
+    # Yechan Kim add ->
+    elif 'random_scale_width_and_crop' in opt.preprocess:
+        # Overall: get fixed-size target image (raw image -> x0.9 ~ x1.1 (aspect-ratio-preserved) -> crop)
+        # 1) random_size_crop
+        r_min, r_max = opt.crop_size, np.random.randint(opt.load_size, int(opt.load_size * 1.1))
+        random_size = np.random.randint(r_min, r_max + 1)
+        transform_list.append(transforms.RandomCrop(random_size))
+        # 2) scale_width
+        transform_list.append(transforms.Lambda(lambda img: __scale_width(img, opt.load_size, opt.crop_size, method)))
+        # 3) crop
+        transform_list.append(transforms.RandomCrop(opt.crop_size))
 
     if 'crop' in opt.preprocess:
         if params is None:
