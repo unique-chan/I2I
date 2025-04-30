@@ -1,8 +1,11 @@
 import os
+from symbol import pass_stmt
+
 from data.base_dataset import BaseDataset, get_transform
 from data.image_folder import make_dataset
 from PIL import Image
 import random
+import glob
 
 
 class UnalignedDataset(BaseDataset):
@@ -23,18 +26,40 @@ class UnalignedDataset(BaseDataset):
             opt (Option class) -- stores all the experiment flags; needs to be a subclass of BaseOptions
         """
         BaseDataset.__init__(self, opt)
-        # Yechan Kim added ->
-        if opt.filter_A:
-            print(opt.fitler_A)
-        if opt.filter_B:
-            print(opt.filter_B)
-
-
         self.dir_A = os.path.join(opt.dataroot, opt.phase + 'A')  # create a path '/path/to/data/trainA'
         self.dir_B = os.path.join(opt.dataroot, opt.phase + 'B')  # create a path '/path/to/data/trainB'
 
-        self.A_paths = sorted(make_dataset(self.dir_A, opt.max_dataset_size))   # load images from '/path/to/data/trainA'
-        self.B_paths = sorted(make_dataset(self.dir_B, opt.max_dataset_size))    # load images from '/path/to/data/trainB'
+        # Yechan Kim added (and modified) ->
+        if opt.datarootA:
+            print(f'For domain "A", the given opt.dataroot, {opt.dataroot} will be ignored! '
+                  f'Instead, the given opt.datarootA, {opt.datarootA} will be used.')
+            self.dir_A = os.path.join(opt.datarootA, opt.phase)
+        if opt.datarootB:
+            print(f'For domain "B", the given opt.dataroot, {opt.dataroot} will be ignored! '
+                  f'Instead, the given opt.datarootB, {opt.datarootB} will be used.')
+            self.dir_B = os.path.join(opt.datarootB, opt.phase)
+
+        if opt.filterA:
+            self.A_paths = glob.glob(f'{opt.datarootA}/{opt.filterA}')
+            if len(self.A_paths) == 0:
+                raise RuntimeError("Found 0 images in subfolders of: [opt.datarootA/opt.filterA] " +
+                                   f'{opt.datarootA}/{opt.filterA}' + "\n")
+            else:
+                self.A_paths = sorted(self.A_paths)
+        else:
+            self.A_paths = sorted(make_dataset(self.dir_A, opt.max_dataset_size))
+
+        if opt.filterB:
+            self.B_paths = glob.glob(f'{opt.datarootB}/{opt.filterB}')
+            if len(self.B_paths) == 0:
+                raise RuntimeError("Found 0 images in subfolders of: [opt.datarootB/opt.filterB] " +
+                                   f'{opt.datarootB}/{opt.filterB}' + "\n")
+            else:
+                self.B_paths = sorted(self.B_paths)
+        else:
+            self.B_paths = sorted(make_dataset(self.dir_B, opt.max_dataset_size))
+
+
         self.A_size = len(self.A_paths)  # get the size of dataset A
         self.B_size = len(self.B_paths)  # get the size of dataset B
         btoA = self.opt.direction == 'BtoA'
