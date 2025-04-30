@@ -45,7 +45,7 @@ class UnalignedDataset(BaseDataset):
                 raise RuntimeError("Found 0 images in subfolders of: [opt.datarootA/opt.filterA] " +
                                    f'{opt.datarootA}/{opt.filterA}' + "\n")
             else:
-                self.A_paths = sorted(self.A_paths)
+                self.A_paths = sorted(self.A_paths[:min(opt.max_dataset_size, len(self.A_paths))])
         else:
             self.A_paths = sorted(make_dataset(self.dir_A, opt.max_dataset_size))
 
@@ -55,7 +55,7 @@ class UnalignedDataset(BaseDataset):
                 raise RuntimeError("Found 0 images in subfolders of: [opt.datarootB/opt.filterB] " +
                                    f'{opt.datarootB}/{opt.filterB}' + "\n")
             else:
-                self.B_paths = sorted(self.B_paths)
+                self.B_paths = sorted(self.B_paths[:min(opt.max_dataset_size, len(self.B_paths))])
         else:
             self.B_paths = sorted(make_dataset(self.dir_B, opt.max_dataset_size))
 
