@@ -43,8 +43,8 @@ python train.py  --dataroot "" \
                  --datarootA "/media/yechani9/KYC_AMD/AMOD_V1_FINAL_OPTICAL" \
                  --datarootB "/media/yechani9/KYC_AMD/DOTA-v1.0-for-mmrotate" \
                  --filterA "*/10/*.png" \
-                 --preprocess "random_scale_width_and_crop" --load_size 542 --crop_size 512 \
+                 --preprocess "random_scale_width_and_crop" --load_size 630 --crop_size 600 \
                  --name "amod2dota10" --model cycle_gan \
-                 --display_id -1 --n_epochs 100 --n_epochs_decay 100
+                 --display_id -1 --n_epochs 100 --n_epochs_decay 100 --gpu_id 0
 ~~~
 
