@@ -40,9 +40,13 @@ class UnalignedDataset(BaseDataset):
             self.dir_B = os.path.join(opt.datarootB, opt.phase)
 
         if opt.filterA:
-            self.A_paths = glob.glob(f'{opt.datarootA}/{opt.filterA}')
+            phase = opt.phase
+            if phase == 'test' and not os.path.exists(f'{opt.datarootA}/{phase}/{opt.filterA}'):
+                print(f'No "test" dir, try to use "val" dir instead for {opt.datarootA}')
+                phase = 'val'
+            self.A_paths = glob.glob(f'{opt.datarootA}/{phase}/{opt.filterA}')
             if len(self.A_paths) == 0:
-                raise RuntimeError("Found 0 images in subfolders of: [opt.datarootA/opt.filterA] " +
+                raise RuntimeError(f"Found 0 images in subfolders of: [opt.datarootA/{phase}/opt.filterA] " +
                                    f'{opt.datarootA}/{opt.filterA}' + "\n")
             else:
                 self.A_paths = sorted(self.A_paths[:min(opt.max_dataset_size, len(self.A_paths))])
@@ -50,10 +54,14 @@ class UnalignedDataset(BaseDataset):
             self.A_paths = sorted(make_dataset(self.dir_A, opt.max_dataset_size))
 
         if opt.filterB:
-            self.B_paths = glob.glob(f'{opt.datarootB}/{opt.filterB}')
+            phase = opt.phase
+            if phase == 'test' and not os.path.exists(f'{opt.datarootB}/{phase}/{opt.filterB}'):
+                print(f'No "test" dir, try to use "val" dir instead for {opt.datarootB}')
+                phase = 'val'
+            self.B_paths = glob.glob(f'{opt.datarootB}/{phase}/{opt.filterB}')
             if len(self.B_paths) == 0:
-                raise RuntimeError("Found 0 images in subfolders of: [opt.datarootB/opt.filterB] " +
-                                   f'{opt.datarootB}/{opt.filterB}' + "\n")
+                raise RuntimeError(f"Found 0 images in subfolders of: [opt.datarootB/{phase}/opt.filterB] " +
+                                   f'{opt.datarootB}/{phase}/{opt.filterB}' + "\n")
             else:
                 self.B_paths = sorted(self.B_paths[:min(opt.max_dataset_size, len(self.B_paths))])
         else:
