@@ -35,9 +35,7 @@ if __name__ == '__main__':
         model.test()           # run inference
         visuals = model.get_current_visuals()  # get image results
         img_path = model.get_image_paths()     # get image paths
-        print('sibal')
-        print(visuals)
-        result = tensor2im(visuals)
+        result = tensor2im(visuals['fake'])
         result_img = Image.fromarray(result)
 
         fname = os.path.basename(img_path)
