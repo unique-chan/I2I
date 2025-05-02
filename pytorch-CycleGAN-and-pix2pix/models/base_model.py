@@ -91,7 +91,7 @@ class BaseModel(ABC):
             except Exception as e:
                 print(e)
                 print(f'Import the given weight path, {opt.weight_path}!!!')
-                self.load_networks(opt.weight_path)
+                self.load_networks(epoch='', load_path=opt.weight_path)
         self.print_networks(opt.verbose)
 
     def eval(self):
