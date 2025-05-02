@@ -38,6 +38,7 @@ if __name__ == '__main__':
         result = tensor2im(visuals['fake'])
         result_img = Image.fromarray(result)
 
+        print('시발 ', img_path)
         fname = os.path.basename(img_path)
         result_img.save(os.path.join(opt.results_dir, fname))
 
