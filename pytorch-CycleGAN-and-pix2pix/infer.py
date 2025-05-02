@@ -35,6 +35,8 @@ if __name__ == '__main__':
         model.test()           # run inference
         visuals = model.get_current_visuals()  # get image results
         img_path = model.get_image_paths()     # get image paths
+        print('sibal')
+        print(visuals)
         result = tensor2im(visuals)
         result_img = Image.fromarray(result)
 
