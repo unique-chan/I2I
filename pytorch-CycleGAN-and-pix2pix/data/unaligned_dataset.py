@@ -47,7 +47,7 @@ class UnalignedDataset(BaseDataset):
             self.A_paths = glob.glob(f'{opt.datarootA}/{phase}/{opt.filterA}')
             if len(self.A_paths) == 0:
                 raise RuntimeError(f"Found 0 images in subfolders of: [opt.datarootA/{phase}/opt.filterA] " +
-                                   f'{opt.datarootA}/{opt.filterA}' + "\n")
+                                   f'{opt.datarootA}/{phase}/{opt.filterA}' + "\n")
             else:
                 self.A_paths = sorted(self.A_paths[:min(opt.max_dataset_size, len(self.A_paths))])
         else:
