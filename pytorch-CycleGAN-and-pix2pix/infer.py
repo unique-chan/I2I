@@ -39,6 +39,7 @@ if __name__ == '__main__':
         result_img = Image.fromarray(result)
 
         fname = os.path.basename(img_path[0])
+        os.makedirs(opt.results_dir, exist_ok=True)
         result_img.save(os.path.join(opt.results_dir, fname))
 
         if i % 5 == 0:  # save images to an HTML file
