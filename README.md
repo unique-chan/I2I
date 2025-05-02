@@ -10,6 +10,7 @@ conda install pytorch==2.1.2 torchvision==0.16.2 pytorch-cuda=12.1 -c pytorch -c
 pip install dominate==2.9.1
 pip install visdom==0.2.4
 pip install wandb==0.19.10
+pip install tqdm==4.67.1
 ~~~
 
 훈련 연습 (1)
@@ -45,6 +46,6 @@ python train.py  --dataroot "" \
                  --filterA "*/10/*.png" \
                  --preprocess "random_scale_width_and_crop" --load_size 630 --crop_size 600 \
                  --name "amod2dota10" --model cycle_gan \
-                 --display_id -1 --n_epochs 100 --n_epochs_decay 100 --gpu_id 0
+                 --display_id -1 --n_epochs 200 --n_epochs_decay 100 --gpu_id 0
 ~~~
 
